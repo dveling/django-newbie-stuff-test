@@ -1,20 +1,31 @@
 from django.conf import settings
 from django.db import models
-from django.contrib.localflavor.us.models import USStateField
+from django.core.validators import RegexValidator
 
 class House(models.Model):
+    TYPE_OF_HOME_CHOICES = (
+        ("beach", "Beach"),
+        ("bungalow", "Bungalow"),
+        ("colonial", "Colonial"),
+        ("contemporary", "Contemporary"),
+        ("contemporary-craftsman", "Contemporary Craftsman"),
+        ("country", "Country"),
+        ("english-cottage", "English Cottage"),
+        ("modern", "Modern"),
+    )
+
     bedrooms = models.DecimalField(max_digits=2, decimal_places=1, unique=False, default=None)
     bathrooms = models.DecimalField(max_digits=2, decimal_places=1, unique=False, default=None)
     floors = models.IntegerField(unique=False, default=1)
     paint_color = models.TextField(unique=False, default=None)
-    style = models.TextField(unique=False, default="Contemporary")
-    garage = models.BooleanField(default=False)
+    style = models.CharField(max_length=128, unique=False, default="contemporary", choices=TYPE_OF_HOME_CHOICES)
+    garage = models.CharField(max_length=3,default="N", choices=(("Y","Yes"),("N","No")))
 
     address_1 = models.CharField(max_length=128, default=None)
     address_2 = models.CharField(max_length=128, blank=True)
 
     city = models.CharField(max_length=64, default="Mishawaka")
-    state = USStateField(default="IN")
+    state = models.CharField(max_length=2, default="IN")
     zip_code = models.CharField(max_length=5, default="46544")
 
     class Meta:
@@ -28,9 +39,3 @@ class House(models.Model):
 
     def get_composite_address(self):
         return self.address_1 + " " + self.address_2 + " " + self.city + ", " + self.state + " " + self.zip_code
-
-    @staticmethod
-    def basic_search_list():
-        return [
-            "serial_number", "make", "model", "color"
-        ]

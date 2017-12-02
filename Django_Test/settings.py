@@ -38,7 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'django-localflavor',
+    'localflavor',
+    'Django_Test.apps.house.apps.HouseConfig',
+    'Django_Test.apps.vehicle.apps.VehicleConfig',
+    'Django_Test.apps.person.apps.PersonConfig',
+    "django.contrib.sites",
+    "django.contrib.humanize",
+    "rest_framework",
+    "maced",
+    "search_filter_sort",
 ]
 
 MIDDLEWARE = [
