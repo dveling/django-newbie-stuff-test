@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from Django_Test.views.class_based.BaseView import HouseList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^about/$', HouseList.as_view()),
 ]
