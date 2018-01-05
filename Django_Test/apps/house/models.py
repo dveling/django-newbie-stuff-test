@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.db import models
+import django.urls
 from django.core.validators import RegexValidator
+from Django_Test.settings import APPS_DIR
+import os
 
 class House(models.Model):
     TYPE_OF_HOME_CHOICES = (
@@ -35,7 +38,10 @@ class House(models.Model):
         unique_together = (("address_1", "address_2", "city", "state", "zip_code"),) # Once again I just like composite keys as an enforcement tool
 
     def __str__(self):
-        return self.color + " " + self.make + " " + self.model + " " + self.vehicle_type
+        return str(self.address_1)
 
     def get_composite_address(self):
         return self.address_1 + " " + self.address_2 + " " + self.city + ", " + self.state + " " + self.zip_code
+
+    def get_absolute_url(self):
+        return reverse('house-details', kwargs={'pk': self.pk})

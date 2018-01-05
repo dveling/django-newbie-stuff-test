@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block extra_css %}
+    {% block extra_css_local %}
+    {% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+    {% block extra_js_local %}
+        <script>
+            $(document).ready(function () {
+                if({{ is_deleting }}){
+                    $('.delete-enable').text("Disable Deletion");
+                    $('.delete').toggle();
+                }
+                $('.delete-enable').click(function () {
+                    if(!$('.delete').is(":visible")){
+                        $('.delete-enable').text("Disable Deletion");
+                    }
+                    else
+                    {
+                        $('.delete-enable').text("Enable Deletion");
+                    }
+                    $('.delete').toggle();
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
+
+{% block main_content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" class="delete" style="display:none;">Delete</th>
+      <th scope="col">ID</th>
+      <th scope="col">Bedrooms</th>
+      <th scope="col">Bathrooms</th>
+      <th scope="col">Floors</th>
+      <th scope="col">Paint Color</th>
+      <th scope="col">Style</th>
+      <th scope="col">Garage</th>
+      <th scope="col">Address</th>
+      <th scope="col">City</th>
+      <th scope="col">State</th>
+      <th scope="col">Zip</th>
+    </tr>
+  </thead>
+    <tbody>
+        {% for house in object_list %}
+        <tr>
+            <td scope="row" class="delete" style="display:none;"><a class="delete" style="display:none;" href="{% url 'house-delete' house.id %}">{% bootstrap_icon "trash" %}</a></td>
+            <th scope="row"><a href="{% url 'house-details' house.id %}">{{ house.id }}</a></th>
+            <td>{{ house.bedrooms }}</td>
+            <td>{{ house.bathrooms }}</td>
+            <td>{{ house.floors }}</td>
+            <td>{{ house.paint_color }}</td>
+            <td>{{ house.style }}</td>
+            <td>{{ house.garage }}</td>
+            <td>{{ house.address_1 }} &nbsp; {{ house.address_2 }}</td>
+            <td>{{ house.city }}</td>
+            <td>{{ house.state }}</td>
+            <td>{{ house.zip_code }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+	<a class="btn btn-*" style="border:3px solid green;" href="{% url 'house-create' %}">{{ "Add New" }}</a>
+	<a class="btn btn-* delete-enable" style="border:3px solid red;">{{ "Enable Deletion" }}</a>
+{% endblock %}

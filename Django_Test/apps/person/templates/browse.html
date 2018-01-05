@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block extra_css %}
+    {% block extra_css_local %}
+    {% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+    {% block extra_js_local %}
+        <script>
+            $(document).ready(function () {
+                if({{ is_deleting }}){
+                    $('.delete-enable').text("Disable Deletion");
+                    $('.delete').toggle();
+                }
+                $('.delete-enable').click(function () {
+                    if(!$('.delete').is(":visible")){
+                        $('.delete-enable').text("Disable Deletion");
+                    }
+                    else
+                    {
+                        $('.delete-enable').text("Enable Deletion");
+                    }
+                    $('.delete').toggle();
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
+
+{% block main_content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" class="delete" style="display:none;">Delete</th>
+      <th scope="col">SSN</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Middle Initial</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Date of Birth</th>
+      <th scope="col">Home</th>
+      <th scope="col">Vehicles</th>
+    </tr>
+  </thead>
+    <tbody>
+        {% for person in object_list %}
+        <tr>
+            <td scope="row" class="delete" style="display:none;"><a class="delete" style="display:none;" href="{% url 'house-delete' house.id %}">{% bootstrap_icon "trash" %}</a></td>
+            <th scope="row"><a href="{% url 'person-details' person.id %}">{{ person.SSN }}</a></th>
+            <td>{{ person.first_name }}</td>
+            <td>{{ person.middle_initial }}</td>
+            <td>{{ person.date_of_birth }}</td>
+            <td><a href="{% url 'house-details' person.home.id %}">{{ person.home.get_composite_address }}</a></td>
+            <td>{% for vehicle in person.vehicles %}<a href="{% url 'vehicle-details' vehicle.id %}">{{ vehicle }}</a><br>{% endfor %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+	<a class="btn btn-*" style="border:3px solid green;" href="{% url 'person-create' %}">{{ "Add New" }}</a>
+	<a class="btn btn-* delete-enable" style="border:3px solid red;">{{ "Enable Deletion" }}</a>
+{% endblock %}

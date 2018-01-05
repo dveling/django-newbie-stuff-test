@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APPS_DIR = os.path.join(BASE_DIR, "Django_Test/apps")
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'Django_Test.apps.house.apps.HouseConfig',
     'Django_Test.apps.vehicle.apps.VehicleConfig',
     'Django_Test.apps.person.apps.PersonConfig',
+    'Django_Test.apps.base.apps.BaseConfig',
     "django.contrib.humanize",
     "rest_framework",
     "maced",
@@ -77,7 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Django_Test.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

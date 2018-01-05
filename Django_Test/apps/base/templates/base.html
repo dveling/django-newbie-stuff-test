@@ -1,0 +1,23 @@
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block extra_css %}
+    {% block extra_css_local %}
+    {% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+    {% block extra_js_local %}
+    {% endblock %}
+{% endblock %}
+
+{% block main_content %}
+{% endblock %}

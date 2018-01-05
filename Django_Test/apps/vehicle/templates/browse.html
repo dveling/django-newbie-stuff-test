@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+    {% block extra_css_local %}
+    {% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+    {% block extra_js_local %}
+        <script>
+            $(document).ready(function () {
+                if({{ is_deleting }}){
+                    $('.delete-enable').text("Disable Deletion");
+                    $('.delete').toggle();
+                }
+                $('.delete-enable').click(function () {
+                    if(!$('.delete').is(":visible")){
+                        $('.delete-enable').text("Disable Deletion");
+                    }
+                    else
+                    {
+                        $('.delete-enable').text("Enable Deletion");
+                    }
+                    $('.delete').toggle();
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
+
+{% block main_content %}
+<h2>Vehicles</h2>
+
+        {% for vehicle in object_list %}
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+            <a class="delete" style="border:3px solid red; display:none;" href="{% url 'vehicle-delete' vehicle.id %}">{{ "Delete" }}</a>
+            <a href="{% url 'vehicle-details' vehicle.id %}">{{ vehicle.get_full_name }}</a>
+        {% endfor %}
+
+	<a class="btn btn-*" style="border:3px solid green;" href="{% url 'vehicle-create' %}">{{ "Add New" }}</a>
+	<a class="btn btn-* delete-enable" style="border:3px solid red;">{{ "Enable Deletion" }}</a>
+{% endblock %}
